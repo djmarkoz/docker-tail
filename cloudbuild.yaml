@@ -3,3 +3,7 @@ steps:
   entrypoint: 'go'
   args: ['build', '.']
   env: ['GO111MODULE=on']
+artifacts:
+  objects:
+    location: 'gs://djmarkoz-docker-tail/'
+    paths: ['docker-tail']  
