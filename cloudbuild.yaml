@@ -3,5 +3,3 @@ steps:
   entrypoint: 'go'
   args: ['build', '.']
   env: ['GO111MODULE=on']
-- name: 'busybox'
-  args: ['./docker-tail']
