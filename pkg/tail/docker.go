@@ -23,12 +23,11 @@
 package tail
 
 import (
-	"bufio"
 	"context"
-	"fmt"
 	"io"
 	"log"
-	"strings"
+
+	"github.com/docker/docker/pkg/stdcopy"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
@@ -59,17 +58,24 @@ func (t *DockerTailer) Tail(c string, writer io.Writer) error {
 	}
 	defer logs.Close()
 
-	reader := bufio.NewReader(logs)
-	for {
-		line, err := reader.ReadString('\n')
+	container, err := t.cli.ContainerInspect(context.Background(), c)
+	if err != nil {
+		return err
+	}
+
+	// The stream format on the response will be in one of two formats:
+	//
+	// If the container is using a TTY, there is only a single stream (stdout),
+	// and data is copied directly from the container output stream, no extra multiplexing or headers.
+	//
+	//If the container is *not* using a TTY, streams for stdout and stderr are multiplexed.
+	if container.Config.Tty {
+		_, err := io.Copy(writer, logs)
 		if err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				log.Fatal(err)
-			}
+			return err
 		}
-		_, err = fmt.Fprintf(writer, "%s: %s\n", c, strings.Trim(line, "\n"))
+	} else {
+		_, err = stdcopy.StdCopy(writer, writer, logs)
 		if err != nil {
 			return err
 		}

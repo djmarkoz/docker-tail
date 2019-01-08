@@ -26,9 +26,19 @@ import (
 	"log"
 )
 
-type LogWriter log.Logger
+type LogWriter struct {
+	log.Logger
+	name string
+}
+
+func NewLogWriter(name string) *LogWriter {
+	return &LogWriter{
+		log.Logger{},
+		name,
+	}
+}
 
 func (w *LogWriter) Write(b []byte) (int, error) {
-	log.Print(string(b))
+	log.Printf("%s: %s", w.name, string(b))
 	return len(b), nil
 }
