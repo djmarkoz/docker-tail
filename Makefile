@@ -17,6 +17,7 @@ clean:
 	rm -rf bin
 
 dist:
+	go get github.com/mitchellh/gox
 	gox -os="linux darwin windows freebsd" -output="bin/{{.Dir}}-$(VERSION)-{{.OS}}-{{.Arch}}"
 
 help:
