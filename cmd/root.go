@@ -55,7 +55,7 @@ func run(args []string) {
 	workers := make(chan int, numWorkers)
 	for _, container := range args {
 		go func(c string) {
-			err := tailer.Tail(c, logger.NewLogWriter(container))
+			err := tailer.Tail(c, logger.NewLogWriter(c))
 			if err != nil {
 				log.Fatal(err)
 			}
