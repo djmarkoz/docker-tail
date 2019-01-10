@@ -23,8 +23,26 @@
 package logger
 
 import (
+	"fmt"
 	"log"
+	"time"
 )
+
+func init() {
+	log.SetFlags(0)
+	log.SetOutput(new(timestampedLogWriter))
+}
+
+type timestampedLogWriter struct {
+}
+
+func (timestampedLogWriter) Write(bytes []byte) (int, error) {
+	return fmt.Printf("%s %s", formatTime(time.Now().UTC()), string(bytes))
+}
+
+func formatTime(time time.Time) string {
+	return time.Format("2006-01-02 15:04:05.000")
+}
 
 type LogWriter struct {
 	log.Logger
@@ -39,6 +57,10 @@ func NewLogWriter(name string) *LogWriter {
 }
 
 func (w *LogWriter) Write(b []byte) (int, error) {
-	log.Printf("%s: %s", w.name, string(b))
+	log.Printf(w.format(b))
 	return len(b), nil
+}
+
+func (w *LogWriter) format(b []byte) string {
+	return fmt.Sprintf("%s: %s", w.name, string(b))
 }

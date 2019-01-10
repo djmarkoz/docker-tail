@@ -23,23 +23,9 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"time"
-
 	"github.com/djmarkoz/docker-tail/cmd"
 )
 
 func main() {
-	log.SetFlags(0)
-	log.SetOutput(new(logWriter))
-
 	cmd.Execute()
-}
-
-type logWriter struct {
-}
-
-func (logWriter) Write(bytes []byte) (int, error) {
-	return fmt.Print(time.Now().UTC().Format("2006-01-02 15:04:05.999") + " " + string(bytes))
 }
