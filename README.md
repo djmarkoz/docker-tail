@@ -9,7 +9,7 @@ This program tails and follows one or more Docker containers. The program will e
 ### Install
 
 ```
-go get -u -v https://github.com/djmarkoz/docker-tail
+go get -u -v github.com/djmarkoz/docker-tail
 ```
 
 ### Usage
