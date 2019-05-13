@@ -6,6 +6,12 @@ Tail multiple Docker containers at once.
 
 This program tails and follows one or more Docker containers. The program will exit once all containers are stopped.
 
+### Install
+
+```
+go get -u -v https://github.com/djmarkoz/docker-tail
+```
+
 ### Usage
 ```
 $ docker-tail
