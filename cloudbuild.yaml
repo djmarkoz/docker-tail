@@ -1,8 +1,8 @@
 steps:
-- name: 'golang:1.11'
+- name: 'golang:1.13'
   entrypoint: 'make'
   args: ['test', 'dist']
-  env: ['GO111MODULE=on', 'VERSION=v1.0.3']
+  env: ['VERSION=v1.0.3']
 artifacts:
   objects:
     location: 'gs://djmarkoz-docker-tail/'
