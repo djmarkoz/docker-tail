@@ -2,7 +2,7 @@ steps:
 - name: 'golang:1.13'
   entrypoint: 'make'
   args: ['test', 'dist']
-  env: ['VERSION=v1.0.3']
+  env: ['VERSION=v1.0.4']
 artifacts:
   objects:
     location: 'gs://djmarkoz-docker-tail/'
