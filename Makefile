@@ -18,7 +18,7 @@ clean:
 
 dist:
 	go get github.com/mitchellh/gox
-	gox -os="linux darwin windows freebsd" -output="bin/{{.Dir}}-$(VERSION)-{{.OS}}-{{.Arch}}"
+	gox -os="linux darwin windows" -arch="amd64 386" -output="bin/{{.Dir}}-$(VERSION)-{{.OS}}-{{.Arch}}"
 
 help:
 	@echo "Influential make variables"
